@@ -21,10 +21,11 @@ func createSetupStruct() (Setup, error) {
 
 	fmt.Printf("Configuration initialization process started.\n\n")
 	reader := bufio.NewReader(os.Stdin)
-	for q, setter := range getQuestions(&s) {
-		fmt.Println(q)
+	ques, sets := getQuestionsAndSetters(&s)
+	for i, que := range ques {
+		fmt.Println(que + ": ")
 		anwr, _ := reader.ReadString('\n')
-		err := setter(strings.Replace(anwr, "\n", "", -1))
+		err := sets[i](strings.Replace(anwr, "\n", "", -1))
 		if err != nil {
 			return Setup{}, err
 		}
@@ -37,12 +38,19 @@ func saveSetup() {
 
 }
 
-func getQuestions(s *Setup) map[string]func(string) error {
-	return map[string]func(string) error{
-		"Enter absolute path to the blog folder: ": s.setSourcePath,
-		"Enter AWS access key: ":                   s.setAccessKey,
-		"Enter AWS access secret key: ":            s.setSecretKey,
-		"Enter AWS S3 bucket name: ":               s.setBucket,
-		"Enter AWS S3 bucket region: ":             s.setRegion,
-	}
+func getQuestionsAndSetters(s *Setup) ([]string, []func(string) error) {
+	return []string{
+			"Enter absolute path to the blog folder",
+			"Enter AWS access key",
+			"Enter AWS access secret key",
+			"Enter AWS S3 bucket name",
+			"Enter AWS S3 bucket region",
+		},
+		[]func(string) error{
+			s.setSourcePath,
+			s.setAccessKey,
+			s.setSecretKey,
+			s.setBucket,
+			s.setRegion,
+		}
 }
