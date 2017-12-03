@@ -9,7 +9,7 @@ import (
 
 func main() {
 	fmt.Println("Started...")
-	s, err := config.Init()
+	s, err := config.GetSetup()
 	showUserError(err)
 
 	fmt.Printf("%v", s)

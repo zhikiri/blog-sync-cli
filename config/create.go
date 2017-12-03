@@ -9,33 +9,37 @@ import (
 
 // CreateConfig ask user questions about conguration
 func CreateConfig() (*Setup, error) {
-	s, err := createSetupStruct()
+	s, err := createSetup()
 	if err != nil {
 		return &Setup{}, err
 	}
-	return &s, err
+
+	err = s.save()
+	if err != nil {
+		return &Setup{}, err
+	}
+
+	return &s, nil
 }
 
-func createSetupStruct() (Setup, error) {
+func createSetup() (Setup, error) {
 	s := Setup{}
 
 	fmt.Printf("Configuration initialization process started.\n\n")
 	reader := bufio.NewReader(os.Stdin)
 	ques, sets := getQuestionsAndSetters(&s)
+
 	for i, que := range ques {
 		fmt.Println(que + ": ")
-		anwr, _ := reader.ReadString('\n')
-		err := sets[i](strings.Replace(anwr, "\n", "", -1))
+		asw, _ := reader.ReadString('\n')
+		err := sets[i](strings.Replace(asw, "\n", "", -1))
 		if err != nil {
 			return Setup{}, err
 		}
 	}
+	fmt.Println()
 
 	return s, nil
-}
-
-func saveSetup() {
-
 }
 
 func getQuestionsAndSetters(s *Setup) ([]string, []func(string) error) {
