@@ -1,9 +1,13 @@
 package config
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
+	"path/filepath"
 )
 
 // Setup app configuration parameters
@@ -46,7 +50,43 @@ func (s *Setup) setSourcePath(v string) error {
 	return nil
 }
 
+func (s *Setup) load() error {
+	fmt.Println("Configuration loaded")
+	// todo : write the configuration loading code
+	return nil
+}
+
 func (s *Setup) save() error {
 	fmt.Println("Saving your config...")
-	return nil
+	path, err := getConfigPath()
+	if err != nil {
+		return err
+	}
+	// Creare a folder
+	err = os.MkdirAll(filepath.Dir(path), 0766)
+	if err != nil {
+		return err
+	}
+	// Create a file
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	// Encode the struct
+	r, err := s.marshal()
+	if err != nil {
+		return err
+	}
+	// Save configuration
+	_, err = io.Copy(f, r)
+	return err
+}
+
+func (s *Setup) marshal() (io.Reader, error) {
+	b, err := json.MarshalIndent(s, "", "\t")
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(b), nil
 }

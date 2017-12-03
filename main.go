@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Started...")
 	s, err := config.GetSetup()
 	showUserError(err)
 
