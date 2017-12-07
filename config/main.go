@@ -10,23 +10,18 @@ import (
 // GetSetup function for initialize app configuration
 func GetSetup() (*Setup, error) {
 	s := &Setup{}
-	exist, err := isConfigExist()
-	if err != nil {
-		return s, err
-	}
-
-	if exist {
-		err := s.load()
-		if err != nil {
+	if exist, _ := isConfigExist(); exist == true {
+		if err := s.load(); err != nil {
 			return &Setup{}, err
 		}
 		return s, nil
 	}
 
 	fmt.Println("Configuration is missing")
-	s, err = CreateConfig()
+
+	s, err := CreateConfig()
 	if err != nil {
-		return s, err
+		return &Setup{}, err
 	}
 	return s, nil
 }
@@ -36,11 +31,11 @@ func isConfigExist() (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	_, err = os.Stat(p)
-	if os.IsNotExist(err) {
-		return false, err
+
+	if _, err = os.Stat(p); err == nil {
+		return true, nil
 	}
-	return true, nil
+	return false, err
 }
 
 func getConfigPath() (string, error) {

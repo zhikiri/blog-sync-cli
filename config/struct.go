@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -51,9 +52,18 @@ func (s *Setup) setSourcePath(v string) error {
 }
 
 func (s *Setup) load() error {
-	fmt.Println("Configuration loaded")
-	// todo : write the configuration loading code
-	return nil
+	fmt.Println("Loading your config...")
+	path, err := getConfigPath()
+	if err != nil {
+		return err
+	}
+	// Read file content
+	f, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	// Set configuration properties
+	return json.Unmarshal(f, s)
 }
 
 func (s *Setup) save() error {

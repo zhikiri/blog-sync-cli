@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/zhikiri/blog-sync-cli/config"
@@ -16,7 +17,8 @@ func main() {
 
 func showUserError(err error) {
 	if err != nil {
-		fmt.Printf("\nError: %s\n", err.Error())
+		log.Panic(err)
+		//fmt.Printf("\nError: %s\n", err.Error())
 		os.Exit(1)
 	}
 }
