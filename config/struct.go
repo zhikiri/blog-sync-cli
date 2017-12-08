@@ -9,12 +9,16 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Setup app configuration parameters
 type Setup struct {
 	SourcePath string `json:"source_path"`
-	AWS        struct {
+	Ignore     struct {
+		Ext []string `json:"ext"`
+	} `json:"ignore"`
+	AWS struct {
 		AccessKey string `json:"access_key"`
 		SecretKey string `json:"secret_key"`
 		Bucket    string `json:"bucket"`
@@ -39,6 +43,15 @@ func (s *Setup) setBucket(v string) error {
 
 func (s *Setup) setRegion(v string) error {
 	s.AWS.Region = v
+	return nil
+}
+
+func (s *Setup) setIgnoreExtensions(v string) error {
+	ext := strings.Split(v, ",")
+	for i, e := range ext {
+		ext[i] = strings.Replace(strings.Trim(e, " "), ".", "", -1)
+	}
+	s.Ignore.Ext = ext
 	return nil
 }
 

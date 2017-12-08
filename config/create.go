@@ -32,6 +32,7 @@ func createSetup() (Setup, error) {
 	for i, que := range ques {
 		fmt.Println(que + ": ")
 		asw, _ := reader.ReadString('\n')
+		fmt.Println()
 		err := sets[i](strings.Replace(asw, "\n", "", -1))
 		if err != nil {
 			return Setup{}, err
@@ -49,6 +50,7 @@ func getQuestionsAndSetters(s *Setup) ([]string, []func(string) error) {
 			"Enter AWS access secret key",
 			"Enter AWS S3 bucket name",
 			"Enter AWS S3 bucket region",
+			"Enter ignore extensions (separate by comma)",
 		},
 		[]func(string) error{
 			s.setSourcePath,
@@ -56,5 +58,6 @@ func getQuestionsAndSetters(s *Setup) ([]string, []func(string) error) {
 			s.setSecretKey,
 			s.setBucket,
 			s.setRegion,
+			s.setIgnoreExtensions,
 		}
 }
