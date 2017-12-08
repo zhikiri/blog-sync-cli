@@ -23,6 +23,16 @@ func isFileExist(abspath string) bool {
 	return false
 }
 
+func isFileIgnored(abspath string, ignlist []string) bool {
+	ext := filepath.Ext(abspath)
+	for _, ign := range ignlist {
+		if ext == ign {
+			return true
+		}
+	}
+	return false
+}
+
 func isFileChanged(abspath string, che string) (bool, error) {
 	calc, err := getChecksum(abspath)
 	if err != nil {
@@ -71,6 +81,10 @@ func syncAddedFiles(s *config.Setup, con *aws.S3, ver []string) []error {
 	var errs []error
 	filepath.Walk(s.SourcePath, func(abspath string, f os.FileInfo, err error) error {
 		if f.IsDir() {
+			return nil
+		}
+		// If file should be ignored
+		if isFileIgnored(abspath, s.Ignore.Ext) {
 			return nil
 		}
 		for _, p := range ver {

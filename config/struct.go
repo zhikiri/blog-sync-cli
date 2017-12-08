@@ -49,7 +49,7 @@ func (s *Setup) setRegion(v string) error {
 func (s *Setup) setIgnoreExtensions(v string) error {
 	ext := strings.Split(v, ",")
 	for i, e := range ext {
-		ext[i] = strings.Replace(strings.Trim(e, " "), ".", "", -1)
+		ext[i] = "." + strings.Replace(strings.Trim(e, " "), ".", "", -1)
 	}
 	s.Ignore.Ext = ext
 	return nil
