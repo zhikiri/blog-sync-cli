@@ -52,19 +52,17 @@ func UpdateFile(abspath, relpath string, c *s3.S3, bucket string) error {
 	}
 
 	start := time.Now()
-	/*
-		_, err = c.PutObject(&s3.PutObjectInput{
-			Bucket:        aws.String(bucket),
-			Key:           aws.String(object.Path),
-			ACL:           aws.String("public-read"),
-			Body:          object.Body,
-			ContentLength: aws.Int64(object.Size),
-			ContentType:   aws.String(object.Type),
-		})
-		if err != nil {
-			return err
-		}
-	*/
+	_, err = c.PutObject(&s3.PutObjectInput{
+		Bucket:        aws.String(bucket),
+		Key:           aws.String(object.Path),
+		ACL:           aws.String("public-read"),
+		Body:          object.Body,
+		ContentLength: aws.Int64(object.Size),
+		ContentType:   aws.String(object.Type),
+	})
+	if err != nil {
+		return err
+	}
 	stop := time.Now()
 	fmt.Printf(
 		"File %s was uploaded, (%.2f Kb) was sent to S3, it took %v\n",
@@ -77,15 +75,12 @@ func UpdateFile(abspath, relpath string, c *s3.S3, bucket string) error {
 
 // DeleteFile function for remove file in S3 bucket
 func DeleteFile(relpath string, c *s3.S3, bucket string) error {
-	/*
-		_, err := c.DeleteObject(&s3.DeleteObjectInput{
-			Bucket: aws.String(bucket),
-			Key:    aws.String(relpath),
-		})
-		if err == nil {
-			fmt.Printf("File %s was deleted from S3 bucket", relpath)
-		}
-		return err
-	*/
-	return nil
+	_, err := c.DeleteObject(&s3.DeleteObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(relpath),
+	})
+	if err == nil {
+		fmt.Printf("File %s was deleted from S3 bucket", relpath)
+	}
+	return err
 }
