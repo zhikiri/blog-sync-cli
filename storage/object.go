@@ -34,7 +34,23 @@ func getObject(abspath, relpath string) (*Object, error) {
 	return &Object{
 		Body: fileBytes,
 		Size: size,
-		Type: fileType,
+		Type: getMIMEType(abspath),
 		Path: relpath,
 	}, nil
+}
+
+func getMIMEType(abspath string) string {
+	if strings.HasSuffix(abspath, ".css") {
+		return "text/css"
+	} else if strings.HasSuffix(abspath, ".html") {
+		return "text/html"
+	} else if strings.HasSuffix(abspath, ".js") {
+		return "application/javascript"
+	} else if strings.HasSuffix(abspath, ".png") {
+		return "image/png"
+	} else if strings.HasSuffix(abspath, ".svg") {
+		return "image/svg+xml"
+	} else {
+		return "text/plain"
+	}
 }
