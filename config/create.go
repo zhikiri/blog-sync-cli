@@ -45,7 +45,7 @@ func createSetup() (Setup, error) {
 
 func getQuestionsAndSetters(s *Setup) ([]string, []func(string) error) {
 	return []string{
-			"Enter absolute path to the blog folder",
+			"Enter absolute path to the blog static content folder (public folder for hugo)",
 			"Enter AWS access key",
 			"Enter AWS access secret key",
 			"Enter AWS S3 bucket name",
