@@ -1,0 +1,6 @@
+{
+    "src": "/path/to/html/assets",
+    "ignore": ["list of extensions that should be ignored during the sync"],
+    "bucket": "aws-s3-bucket-name",
+    "region": "aws-s3-bucket-region"
+}

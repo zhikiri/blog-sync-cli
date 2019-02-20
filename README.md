@@ -1,13 +1,14 @@
-# Blog synchronization tool
+# Blog sync CLI
 
-Simple CLI util for synchronize [hugo](https://gohugo.io) static content with [AWS S3](https://aws.amazon.com/s3/) bucket.
+Command line tool that provide synchronization mechanism for my blog.
+Basic concept of the library is files checksum comparison, it will upload only modified files or delete them if it's required.
 
-## Description
+## Configuration
 
-CLI tool sync new/changed/removed files. Currently using checksum tests.
+Before start to use it, need to create a configuration file from example (`config.json.example`).
+Also, two environment variables are required (`AWS_ACCESS_KEY` and `AWS_ACCESS_SECRET`).
 
-Some description notes:
+## Conclusion
 
-- Tool will ask required information (AWS credentials, path to files, ignore extentions list) and store in hidden configuration file (ex `~/.bsync/setup.json`)
-
-- Add ignore extentions list for avoid synchronization for some files
+In current version of the library there is a possibility to have different synchronization places, not just only s3 bucket.
+Maybe in future it can be interesting thing to do.
