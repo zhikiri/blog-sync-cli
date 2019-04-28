@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"flag"
+	"fmt"
 
 	"github.com/zhikiri/blog-sync-cli/app/config"
 	"github.com/zhikiri/blog-sync-cli/app/storage"
@@ -25,7 +27,10 @@ func main() {
 }
 
 func getConfigFilePath() string {
-	path, err := filepath.Abs("../config.json")
+	configPath := flag.String("config", "../config.json", "path to the configuration file")
+	flag.Parse()
+
+	path, err := filepath.Abs(*configPath)
 	failOnErr(err, "Configuration path cannot be retrieved")
 	return path
 }
