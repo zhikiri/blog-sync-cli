@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"flag"
-	"fmt"
 
 	"github.com/zhikiri/blog-sync-cli/app/config"
 	"github.com/zhikiri/blog-sync-cli/app/storage"
