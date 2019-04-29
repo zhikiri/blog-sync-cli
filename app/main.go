@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"path/filepath"
 	"flag"
 
 	"github.com/zhikiri/blog-sync-cli/app/config"
@@ -12,7 +11,10 @@ import (
 )
 
 func main() {
-	settings, err := config.GetSettings(getConfigFilePath())
+	configPath := flag.String("c", "../config.json", "configuration file path ('env' for environment)")
+	flag.Parse()
+
+	settings, err := config.GetSettings(*configPath)
 	failOnErr(err, "Settings parsing failed")
 
 	access := config.GetAccessKey()
@@ -23,15 +25,6 @@ func main() {
 
 	err = synchronizer.SyncWith(settings, storage)
 	failOnErr(err, "Storage synchronization failed")
-}
-
-func getConfigFilePath() string {
-	configPath := flag.String("config", "../config.json", "path to the configuration file")
-	flag.Parse()
-
-	path, err := filepath.Abs(*configPath)
-	failOnErr(err, "Configuration path cannot be retrieved")
-	return path
 }
 
 func failOnErr(err error, message string) {
