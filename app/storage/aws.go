@@ -20,18 +20,24 @@ type AWS struct {
 	settings   *config.Settings
 }
 
-func NewAWS(settings config.Settings, access, secret string) (AWS, error) {
-	awsCreds := credentials.NewStaticCredentials(access, secret, "")
-	if _, err := awsCreds.Get(); err != nil {
-		return AWS{}, err
+func NewAWS(settings config.Settings, creds *credentials.Credentials) (AWS, error) {
+	awsConfig := aws.NewConfig().WithRegion(settings.Region)
+	if creds != nil {
+		awsConfig = awsConfig.WithCredentials(creds)
 	}
-
-	awsConfig := aws.NewConfig().WithRegion(settings.Region).WithCredentials(awsCreds)
 	storage := AWS{
 		connection: s3.New(session.New(awsConfig)),
 		settings:   &settings,
 	}
 	return storage, nil
+}
+
+func NewAWSAuth(settings config.Settings, access, secret string) (AWS, error) {
+	awsCreds := credentials.NewStaticCredentials(access, secret, "")
+	if _, err := awsCreds.Get(); err != nil {
+		return AWS{}, err
+	}
+	return NewAWS(settings, awsCreds)
 }
 
 func (aws AWS) GetFiles() ([]File, error) {

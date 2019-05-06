@@ -11,20 +11,25 @@ import (
 )
 
 func main() {
-	configPath := flag.String("c", "../config.json", "configuration file path ('env' for environment)")
+	configPath := flag.String("config", "../config.json", "configuration file path ('env' for environment)")
+	isAuthRequired := flag.Bool("aws-auth", true, "is aws authorization required")
 	flag.Parse()
 
 	settings, err := config.GetSettings(*configPath)
 	failOnErr(err, "Settings parsing failed")
 
-	access := config.GetAccessKey()
-	secret := config.GetAccessSecret()
-
-	storage, err := storage.NewAWS(settings, access, secret)
+	storage, err := getStorage(settings, *isAuthRequired)
 	failOnErr(err, "Storage initialization failed")
 
 	err = synchronizer.SyncWith(settings, storage)
 	failOnErr(err, "Storage synchronization failed")
+}
+
+func getStorage(settings config.Settings, isAuthRequired bool) (storage.Storage, error) {
+	if isAuthRequired {
+		return storage.NewAWSAuth(settings, config.GetAccessKey(), config.GetAccessSecret())
+	}
+	return storage.NewAWS(settings, nil)
 }
 
 func failOnErr(err error, message string) {
