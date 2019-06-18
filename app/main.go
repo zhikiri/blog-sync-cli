@@ -1,13 +1,13 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
-	"flag"
 
-	"github.com/zhikiri/blog-sync-cli/app/config"
-	"github.com/zhikiri/blog-sync-cli/app/storage"
-	"github.com/zhikiri/blog-sync-cli/app/synchronizer"
+	"github.com/zhikiri/bsync/app/config"
+	"github.com/zhikiri/bsync/app/storage"
+	"github.com/zhikiri/bsync/app/synchronizer"
 )
 
 func main() {

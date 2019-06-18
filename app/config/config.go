@@ -1,11 +1,11 @@
 package config
 
 import (
-	"path/filepath"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 type Settings struct {

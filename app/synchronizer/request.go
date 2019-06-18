@@ -3,8 +3,8 @@ package synchronizer
 import (
 	"bytes"
 	"crypto/md5"
-	"github.com/zhikiri/blog-sync-cli/app/config"
-	"github.com/zhikiri/blog-sync-cli/app/storage"
+	"github.com/zhikiri/bsync/app/config"
+	"github.com/zhikiri/bsync/app/storage"
 	"io"
 	"log"
 	"os"

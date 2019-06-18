@@ -8,8 +8,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/zhikiri/blog-sync-cli/app/config"
-	"github.com/zhikiri/blog-sync-cli/app/storage"
+	"github.com/zhikiri/bsync/app/config"
+	"github.com/zhikiri/bsync/app/storage"
 )
 
 func SyncWith(settings config.Settings, store storage.Storage) error {

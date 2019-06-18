@@ -12,7 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 
-	"github.com/zhikiri/blog-sync-cli/app/config"
+	"github.com/zhikiri/bsync/app/config"
 )
 
 type AWS struct {
